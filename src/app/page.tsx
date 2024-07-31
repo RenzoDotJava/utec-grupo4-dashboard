@@ -28,6 +28,8 @@ import {
   SelectContent,
 } from "@/components/ui/select";
 
+export const runtime = "edge";
+
 const columnHelper = createColumnHelper<Container>();
 
 const columns = [
