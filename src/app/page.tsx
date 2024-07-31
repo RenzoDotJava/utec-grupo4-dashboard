@@ -86,6 +86,9 @@ export default function Home() {
       .then((containers) => {
         setContainers(containers);
       })
+      .catch((error) => {
+        console.log(error);
+      })
       .finally(() => {
         setLoading(false);
       });
