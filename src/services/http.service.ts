@@ -13,10 +13,10 @@ export class HttpService {
 
   async get({ url }: HttpProps) {
     const res = await fetch(this.baseUrl + url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     });
 
     return res.json();
