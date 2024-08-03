@@ -75,7 +75,7 @@ export default function ContainersPage() {
   const [containers, setContainers] = useState<Container[]>([]);
   const [filteredContainers, setFilteredContainers] = useState<Container[]>([]);
   const [query, setQuery] = useState<string>("");
-  const [date, setDate] = useState<Date | null>(new Date());
+  const [date, setDate] = useState<Date | null>(null);
   const [loading, setLoading] = useState(false);
 
   const table = useReactTable({
@@ -103,17 +103,22 @@ export default function ContainersPage() {
     setQuery(q);
     const auxContainer = containers.filter(
       (container) =>
-        container.rowidunh.toString().includes(q) ||
-        container.agency.toLowerCase().includes(q.toLowerCase()) ||
-        container.load.toLowerCase().includes(q.toLowerCase()) ||
-        container.deliver.toLowerCase().includes(q.toLowerCase()) ||
-        container.discharge.toLowerCase().includes(q.toLowerCase()) ||
-        container.booking.toLowerCase().includes(q.toLowerCase())
+        (container.rowidunh.toString().includes(q) ||
+          container.agency.toLowerCase().includes(q.toLowerCase()) ||
+          container.load.toLowerCase().includes(q.toLowerCase()) ||
+          container.deliver.toLowerCase().includes(q.toLowerCase()) ||
+          container.discharge.toLowerCase().includes(q.toLowerCase()) ||
+          container.booking.toLowerCase().includes(q.toLowerCase())) &&
+        (!date ||
+          format(new Date(container.date_time), "dd/MM/yyyy") ===
+            format(date, "dd/MM/yyyy"))
     );
     setFilteredContainers(auxContainer);
   };
 
-  const handleChangeDate = (value: Date | null) => setDate(value);
+  const handleChangeDate = (value: Date | null) => {
+    setDate(value);
+  };
 
   const handleSearch = () => {
     if (!date) return;
@@ -154,7 +159,6 @@ export default function ContainersPage() {
           </Button>
         </div>
       </div>
-
       {loading && <p>Obteniendo contenedores...</p>}
       {!loading && filteredContainers.length > 0 && (
         <div>
